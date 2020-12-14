@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GradeBook
 {
-    public class Book
+    public class Book : NamedObject
     {
         public delegate void GradeAddedDelegate(object sender, EventArgs args);
         public event GradeAddedDelegate GradeAdded;
@@ -81,33 +81,7 @@ namespace GradeBook
             return grades.Count;
         }
 
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-            set
-            {
-                if(!String.IsNullOrEmpty(value))
-                {
-                    name = value;
-                }
-            }
-        }
-
-        /*
-        // Shortcut method.
-        public string Name
-        {
-            // Can add access modifiers here.
-            get; 
-            private set;
-        }
-        */
-
         private List<double> grades;
-        private string name;
 
         private void displayStatistics(Statistics statistics)
         {
