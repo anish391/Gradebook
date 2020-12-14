@@ -10,6 +10,7 @@ namespace GradeBook
             Console.WriteLine("Enter Book Name");
             var bookName = Console.ReadLine();
             var gradebook = new Book(bookName);
+            gradebook.GradeAdded += OnGradeAdded;
             Console.WriteLine("Enter number of grades.");
             var numGrades = int.Parse(Console.ReadLine());
             while(gradebook.GetGradeBookSize() != numGrades)
@@ -31,6 +32,10 @@ namespace GradeBook
                 }
             }
             gradebook.GetStatistics();
+        }
+        static void OnGradeAdded(object sender, EventArgs args)
+        {
+            Console.WriteLine("A grade has been added.");
         }
     }
 }

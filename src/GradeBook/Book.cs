@@ -5,6 +5,8 @@ namespace GradeBook
 {
     public class Book
     {
+        public delegate void GradeAddedDelegate(object sender, EventArgs args);
+        public event GradeAddedDelegate GradeAdded;
         public Book(string name) 
         {
             grades = new List<double>();
@@ -15,6 +17,10 @@ namespace GradeBook
             if(grade<=100 && grade>=0)
             {
                 grades.Add(grade);
+                if(GradeAdded!=null)
+                {
+                    GradeAdded(this, new EventArgs());
+                }
                 return true;
             }
             else
@@ -96,7 +102,7 @@ namespace GradeBook
         {
             // Can add access modifiers here.
             get; 
-            set;
+            private set;
         }
         */
 
@@ -105,7 +111,6 @@ namespace GradeBook
 
         private void displayStatistics(Statistics statistics)
         {
-            var gradeSize = grades.Count;   
             Console.WriteLine($"Highest grade is: {statistics.High}");   
             Console.WriteLine($"Lowest grade is: {statistics.Low}");    
             Console.WriteLine($"Average grade is: {statistics.Average:N1}");
