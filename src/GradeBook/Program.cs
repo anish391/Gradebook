@@ -9,20 +9,34 @@ namespace GradeBook
         {
             Console.WriteLine("Enter Book Name");
             var bookName = Console.ReadLine();
-            var gradebook = new InMemoryBook(bookName);
-            gradebook.GradeAdded += OnGradeAdded;
+            
             Console.WriteLine("Enter number of grades.");
             var numGrades = int.Parse(Console.ReadLine());
-            EnterGrades(gradebook, numGrades);
-            gradebook.GetStatistics();
+
+            // Get grades and store in file.
+            IBook gradeDiskBook = new DiskBook(bookName);
+            gradeDiskBook.GradeAdded += OnGradeAdded;
+            EnterGrades(gradeDiskBook, numGrades);
+            gradeDiskBook.GetStatistics();
+            
+            Console.WriteLine("-------------------");
+
+            // Get grades and store in memory.
+            IBook gradeInMemoryBook = new InMemoryBook(bookName);
+            gradeInMemoryBook.GradeAdded += OnGradeAdded;
+            Console.WriteLine("Enter number of grades.");
+            EnterGrades(gradeInMemoryBook, numGrades);
+            gradeInMemoryBook.GetStatistics();
         }
 
         private static void EnterGrades(IBook gradebook, int numGrades)
         {
-            while (gradebook.GetGradeBookSize() != numGrades)
+            while (true)
             {
                 Console.WriteLine($"Enter grade: ");
                 var input = Console.ReadLine();
+                if(input=="q")
+                    break;
                 try
                 {
                     var grade = double.Parse(input);
